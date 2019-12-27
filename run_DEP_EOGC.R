@@ -2,7 +2,7 @@ options(stringsAsFactors = F)
 args = commandArgs(trailingOnly=TRUE)
 library(readxl)
 
-# f = '~/Google Drive/EOGC_Nitration/summary_files/N155T156_Nitration_in_Global.xlsx'
+f = '~/GoogleDrive/EOGC_Nitration/summary_files/N155T156_Nitration_in_Global.xlsx'
 f = args[1]
 sample = strsplit(strsplit(f, 'summary_files/', fixed = T)[[1]][2], '_')[[1]][1]
 
