@@ -33,3 +33,19 @@ b <- b[-i,]
 b <- b %>% rename('size' = 'V1', 'sample_id' = 'V2')
 
 # make plots
+pa <- a %>% 
+  ggplot(aes(x = sample_id, y = size, fill = sample_id))+
+  geom_bar(stat = "identity")+
+  scale_colour_viridis_d(alpha = 1, begin = 0, end = 1,
+                         direction = 1, option = "D", aesthetics = "fill")
+pa
+
+pb <- b %>% 
+  ggplot(aes(x = sample_id, y = size, fill = sample_id))+
+  geom_bar(stat = "identity")+
+  scale_colour_viridis_d(alpha = 1, begin = 0, end = 1,
+                         direction = 1, option = "D", aesthetics = "fill")
+pb
+
+ggsave("/Figures/plot.peptide_size_by_samples_191230.pdf", pa, width = 20, height = 10)
+ggsave("/Figures/plot.nitrated_peptide_size_by_samples_191230.pdf", pb, width = 20, height = 10)
