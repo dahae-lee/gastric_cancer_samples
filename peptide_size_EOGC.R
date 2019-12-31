@@ -21,5 +21,6 @@ e = e[!(e$norm1==0 | e$norm2==0 | e$tumor1==0 | e$tumor2==0),]
 t <- as.data.frame(nrow(e))
 t$name <- sample
 names(t) <- c("peptide_size", "sample")
-t_out = paste('~/GoogleDrive/gastric_cancer_samples/Tables/table.peptide_size', sample, 'txt', sep='.')
+t_out = paste('~/GoogleDrive/gastric_cancer_samples/Tables/peptide_size/
+              table.peptide_size', sample, 'txt', sep='.')
 write.table(t, t_out, sep='\t', quote = F, row.names = F, col.names = T)
