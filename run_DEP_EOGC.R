@@ -62,7 +62,7 @@ writeLines(text = paste('>', m$pid, '\n', m$Sequence2, sep=''), con = 'test.fa')
 
 ## Run blastp
 blastp = "blastp"
-blast_db = "Users/dahaelee/GoogleDrive/resources/uniprot/Uniprot_homo_sapiens_20170724_reviewed.fasta"
+blast_db = "/Users/dahaelee/GoogleDrive/resources/uniprot/Uniprot_homo_sapiens_20170724_reviewed"
 input = "test.fa"
 evalue = 1e-6
 format = 6

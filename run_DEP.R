@@ -85,7 +85,7 @@ writeLines(text = paste('>', m$pid, '\n', m$Sequence2, sep=''), con = 'test.fa')
 
 ## Run blastp
 blastp = "blastp"
-blast_db = "/Users/dahaelee/GoogleDrive/resources/uniprot/Uniprot_homo_sapiens_20170724_reviewed.fasta"
+blast_db = "/Users/dahaelee/GoogleDrive/resources/uniprot/Uniprot_homo_sapiens_20170724_reviewed"
 input = "test.fa"
 evalue = 1e-6
 format = 6
@@ -110,14 +110,15 @@ res = read.table(f_blastp, header = F, col.names = c('pid', 'sseqid', 'pident',
                                                      'evalue', 'bitscore'))
 res = res[res$pident >= 100,]
 m = merge(m, res[,c('pid', 'sseqid', 'pident', 'sstart', 'send')], by='pid', all.x=T)
+m$sseqid <- as.character(m$sseqid)
 m$uniprot_ids <- as.character(do.call(rbind.data.frame, strsplit(m$sseqid, '|', fixed = T))[[2]])
 
 ## Add gene information
-hgnc = read.delim('~/Dropbox/Resources/hgnc/hgnc_complete_set.txt')
+hgnc = read.delim('~/GoogleDrive/resources/hgnc/hgnc_complete_set.txt')
 m = merge(m, hgnc[,c('uniprot_ids', 'ensembl_gene_id', 'symbol', 'hgnc_id')], by='uniprot_ids')
 
 
 ## Save to file
-f_out = paste('Tables/table.DEP_blastp', sample, 'txt', sep='.')
+f_out = paste('Tables/blastp/table.DEP_blastp', sample, 'txt', sep='.')
 write.table(m, f_out, sep='\t', quote = F, row.names = F, col.names = T)
 
