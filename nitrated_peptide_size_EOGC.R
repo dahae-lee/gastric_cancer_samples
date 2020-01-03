@@ -33,3 +33,4 @@ names(t) <- c("peptide_size", "sample")
 t_out = paste('~/GoogleDrive/gastric_cancer_samples/Tables/nitrated_peptide_size/
               table.nitrated_peptide_size', sample, 'txt', sep='.')
 write.table(t, t_out, sep='\t', quote = F, row.names = F, col.names = T)
+
