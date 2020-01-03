@@ -2,6 +2,11 @@ options(stringsAsFactors = F)
 args = commandArgs(trailingOnly=TRUE)
 library(readxl)
 
+# f = '~/GoogleDrive/EOGC_Nitration/summary_files_201912/N39T40_Global_nitration.xlsx'
+f = args[1]
+sample = strsplit(strsplit(f, 'summary_files_201912/', fixed = T)[[1]][2], '_')[[1]][1]
+f_blastp = paste('Tables/blastp/table.blastp', sample, 'txt.gz', sep='.')
+
 ## Merge to a super table
 res = read.table(f_blastp, header = F, col.names = c('pid', 'sseqid', 'pident', 
                                                      'length', 'mismatch', 'gapopen', 

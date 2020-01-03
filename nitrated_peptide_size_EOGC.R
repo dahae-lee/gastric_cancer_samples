@@ -3,9 +3,9 @@ options(stringsAsFactors = F)
 args = commandArgs(trailingOnly=TRUE)
 library(readxl)
 
-# load data
 # f = '~/GoogleDrive/EOGC_Nitration/summary_files_201912/N13T236_Global_nitration.xlsx'
 
+# Split the sample ID
 f = args[1]
 sample = strsplit(strsplit(f, 'summary_files_201912/', fixed = T)[[1]][2], '_')[[1]][1]
 
