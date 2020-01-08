@@ -26,14 +26,17 @@ a <- rbind_list(tmp)
 i <- seq(1,59,by=2)
 a <- a[-i,]
 a <- a %>% rename('size' = 'V1', 'sample_id' = 'V2')
+a <- a %>% as.numeric(as.factor(size))
+a$size <- as.numeric(a$size)
 
 b <- rbind_list(tmp_n)
 i <- seq(1,59,by=2)
 b <- b[-i,]
 b <- b %>% rename('size' = 'V1', 'sample_id' = 'V2')
+b$size <- as.numeric(b$size)
 
 # make plots
-pa <- a %>% 
+pa <- a %>%
   ggplot(aes(x = sample_id, y = size, fill = sample_id))+
   geom_bar(stat = "identity")+
   scale_colour_viridis_d(alpha = 1, begin = 0, end = 1,
@@ -41,7 +44,8 @@ pa <- a %>%
   xlab("Sample ID")+
   ylab("Peptide Size")+
   ggtitle("Peptide Size by Samples")+
-  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+  axis.text.x = element_blank())
 pa
 
 pb <- b %>% 
@@ -52,8 +56,9 @@ pb <- b %>%
   xlab("Sample ID")+
   ylab("Nitrated Peptide Size")+
   ggtitle("Nitrated Peptide Size by Samples")+
-  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+        axis.text.x = element_blank())
 pb
 
-ggsave("Figures/plot.peptide_size_by_samples_191230.pdf", pa, width = 25, height = 10)
-ggsave("Figures/plot.nitrated_peptide_size_by_samples_191230.pdf", pb, width = 25, height = 10)
+ggsave("Figures/plot.peptide_size_by_samples_191230.pdf", pa, width = 8, height = 4)
+ggsave("Figures/plot.nitrated_peptide_size_by_samples_191230.pdf", pb, width = 8, height = 4)
