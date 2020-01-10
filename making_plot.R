@@ -35,6 +35,10 @@ b <- b[-i,]
 b <- b %>% rename('size' = 'V1', 'sample_id' = 'V2')
 b$size <- as.numeric(b$size)
 
+# Save to file
+write.table(a, 'Tables/Peptide_size_by_samples', col.names = T)
+write.table(b, 'Tables/Nitrated_Peptide_size_by_samples', col.names = T)
+
 # make plots
 pa <- a %>%
   ggplot(aes(x = sample_id, y = size, fill = sample_id))+

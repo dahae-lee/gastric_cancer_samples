@@ -48,7 +48,7 @@ group <- gsub('1|2', '', samples)
 plotMDS(d, col = as.numeric(group))
 mm <- model.matrix(~ 0 + group)
 
-f_voom = paste('Figures/plot.voom_variance', sample, 'pdf', sep='.')
+f_voom = paste('/Users/dahaelee/GoogleDrive/gastric_cancer_samples/Figures/voom_variance/plot.voom_variance', sample, 'pdf', sep='.')
 pdf(f_voom, width = 5, height = 5)
 #voom은 RNA sequence data를 linear modeling으로 바꾸어준다.
 y <- voom(d, mm, plot = T)
@@ -91,7 +91,7 @@ input = "test.fa"
 evalue = 1e-6
 format = 6
 nThreads = 2
-f_blastp = paste('Tables/blastp/table.blastp', sample, 'txt.gz', sep='.')
+f_blastp = paste('/Users/dahaelee/GoogleDrive/gastric_cancer_samples/Tables/blastp/table.blastp', sample, 'txt.gz', sep='.')
 
 if (!file.exists(f_blastp)){
   system2(command = blastp, 
@@ -105,7 +105,7 @@ if (!file.exists(f_blastp)){
 
 
 ## Merge to a super table
-res = read.table(f_blastp, header = F, col.names = c('pid', 'sseqid', 'pident', 
+res = read.table(gzfile(f_blastp), header = F, col.names = c('pid', 'sseqid', 'pident', 
                                                      'length', 'mismatch', 'gapopen', 
                                                      'qstart', 'qend', 'sstart', 'send', 
                                                      'evalue', 'bitscore'))
@@ -119,24 +119,28 @@ hgnc = read.delim('~/GoogleDrive/resources/hgnc/hgnc_complete_set.txt')
 m = merge(m, hgnc[,c('uniprot_ids', 'ensembl_gene_id', 'symbol', 'hgnc_id')], by='uniprot_ids')
 
 # Save File
-# f_out = paste('Tables/DEP_blastp/table.DEP_blastp', sample, 'txt', sep='.')
-# write.table(m, f_out, sep='\t', quote = F, row.names = F, col.names = T)
+f_out = paste('/Users/dahaelee/GoogleDrive/gastric_cancer_samples/Tables/DEP_blastp/table.DEP_blastp', sample, 'txt', sep='.')
+write.table(m, f_out, sep='\t', quote = F, row.names = F, col.names = T)
 
 # Abstract the information of protein size, DEP up&down protein size
 library(dplyr)
-total_protein <- m %>% count(symbol) %>% nrow()
+total_protein <- m %>% pull(symbol) %>% unique() %>% length
 DEP_up_peptide <- m %>% filter(adj.P.Val < 0.05 & t > 0) %>% count(Sequence) %>% nrow()
 DEP_down_peptide <- m %>% filter(adj.P.Val < 0.05 & t < 0) %>% count(Sequence) %>% nrow()
-DEP_up_protein <- m %>% filter(adj.P.Val < 0.05 & t > 0) %>% count(symbol) %>% nrow()
-DEP_down_protein <- m %>% filter(adj.P.Val < 0.05 & t < 0) %>% count(symbol) %>% nrow()
+DEP_up_protein <- m %>% filter(adj.P.Val < 0.05 & t > 0) %>% pull(symbol) %>% unique() %>% length
+DEP_down_protein <- m %>% filter(adj.P.Val < 0.05 & t < 0) %>% pull(symbol) %>% unique() %>% length
+NonDEP_nitrated_Protein <- m %>% filter(adj.P.Val >= 0.05 & isNitrated == 1)  %>% pull(symbol) %>% unique() %>% length
+NonDEP_NonNitrated_Protein <- m %>% filter(adj.P.Val >= 0.05 & isNitrated == 0)  %>% pull(symbol) %>% unique() %>% length
 
 # Make a table that includes the size information
 
 y <- data.frame("sample_id" = sample, "Total_Protein" = total_protein, 
                 "DEP_Peptide_Up" = DEP_up_peptide, "DEP_Peptide_Down" = DEP_down_peptide, 
-                "DEP_Protein_Up" = DEP_up_protein, "DEP_Protein_Down" = DEP_down_protein)
+                "DEP_Protein_Up" = DEP_up_protein, "DEP_Protein_Down" = DEP_down_protein,
+                "NonDEP_Nitrated_Protein" = NonDEP_nitrated_Protein, 
+                "NonDEP_NonNitrated_Protein" = NonDEP_NonNitrated_Protein)
 
 ## Save to file
-y_out = paste('Tables/sample_info/table.sample_info', sample, 'txt', sep='.')
+y_out = paste('/Users/dahaelee/GoogleDrive/gastric_cancer_samples/Tables/sample_info/table.sample_info', sample, 'txt', sep='.')
 write.table(y, y_out, sep='\t', quote = F, row.names = F, col.names = T)
 
