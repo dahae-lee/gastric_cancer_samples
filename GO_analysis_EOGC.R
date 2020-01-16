@@ -1,8 +1,8 @@
 options(stringsAsFactors = F)
 args = commandArgs(trailingOnly=TRUE)
 
-# f = '~/GoogleDrive/gastric_cancer_samples/Tables/DEP_blastp/table.DEP_blastp.N13T236.txt'
-f = args[1]
+f = '~/GoogleDrive/gastric_cancer_samples/Tables/DEP_blastp/table.DEP_blastp.N13T236.txt'
+# f = args[1]
 sample = strsplit(f, '.', fixed = T)[[1]][3]
 
 ## Load data
