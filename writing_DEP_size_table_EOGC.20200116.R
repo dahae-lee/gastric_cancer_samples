@@ -1,7 +1,7 @@
 date = "20200116"
 
 # 데이터의 상위 폴더를 dir에 지정
-dir = paste("~/GoogleDrive/gastric_cancer_samples/Tables/sample_info", date, sep = ".")
+dir = "~/GoogleDrive/gastric_cancer_samples/Tables/sample_info.20200116."
 
 # 폴더에 존재하는 하위 폴더(=샘플명) 리스트 불러오기
 # (하위 폴더가 없으면 생략)
@@ -30,5 +30,5 @@ a <- a %>% rename('Sample_ID' = 'V1', 'Total_Protein' = 'V2', 'DEP_Peptide_Up' =
 
 # Save to file
 
-a_out = paste('/Users/dahaelee/GoogleDrive/gastric_cancer_samples/Tables/DEP_sample_info', 'txt', sep='.')
+a_out = paste('/Users/dahaelee/GoogleDrive/gastric_cancer_samples/Tables/DEP_sample_info', date, 'txt', sep='.')
 write.table(a, a_out, sep='\t', quote = F, row.names = F, col.names = T)

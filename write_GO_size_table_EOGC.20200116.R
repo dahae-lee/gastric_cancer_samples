@@ -1,4 +1,4 @@
-date = '20200116'
+date = '20200117'
 
 # 데이터의 상위 폴더를 dir에 지정
 dir_u_nit = "~/GoogleDrive/gastric_cancer_samples/Tables/GO_size.20200116./up_nitrated"

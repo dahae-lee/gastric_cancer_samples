@@ -1,6 +1,8 @@
 date = '20200116'
 options(stringsAsFactors = F)
 args = commandArgs(trailingOnly=TRUE)
+library(tidyr)
+library(dplyr)
 
 # f = '~/GoogleDrive/gastric_cancer_samples/Tables/DEP_blastp.20200116./table.DEP_blastp.N13T236.20200116.txt'
 f = args[1]
@@ -8,10 +10,9 @@ sample = strsplit(f, '.', fixed = T)[[1]][5]
 
 ## Load data
 m = as.data.frame(read.delim(f))
+bg_proteins = m %>% pull(symbol) %>% unique()
 
 ## filter the ones which have overexpressed or underexpressed
-library(tidyr)
-library(dplyr)
 DEP_up_protein_Nitrated <- m %>% filter(adj.P.Val < 0.05 & t > 0 & isNitrated == '1') %>% pull(symbol) %>% unique()
 DEP_down_protein_Nitrated <- m %>% filter(adj.P.Val < 0.05 & t < 0 & isNitrated == '1') %>% pull(symbol) %>% unique()
 DEP_up_protein_NonNitrated <- m %>% filter(adj.P.Val < 0.05 & t > 0 & isNitrated == '0') %>% pull(symbol) %>% unique()
@@ -19,10 +20,10 @@ DEP_down_protein_NonNitrated <- m %>% filter(adj.P.Val < 0.05 & t < 0 & isNitrat
 
 ## run gprofiler
 library(gProfileR)
-up_nitrated <- gprofiler(DEP_up_protein_Nitrated, organism = "hsapiens")
-down_nitrated <- gprofiler(DEP_down_protein_Nitrated, organism = "hsapiens")
-up_nonnitrated <- gprofiler(DEP_up_protein_NonNitrated, organism = "hsapiens")
-down_nonnitrated <- gprofiler(DEP_down_protein_NonNitrated, organism = "hsapiens")
+up_nitrated <- gprofiler(DEP_up_protein_Nitrated, organism = "hsapiens", src_filter = c("GO:BP", "GO:MF", "GO:CC", "KEGG", "REAC"), custom_bg = bg_proteins)
+down_nitrated <- gprofiler(DEP_down_protein_Nitrated, organism = "hsapiens", src_filter = c("GO:BP", "GO:MF", "GO:CC", "KEGG", "REAC"), custom_bg = bg_proteins)
+up_nonnitrated <- gprofiler(DEP_up_protein_NonNitrated, organism = "hsapiens", src_filter = c("GO:BP", "GO:MF", "GO:CC", "KEGG", "REAC"), custom_bg = bg_proteins)
+down_nonnitrated <- gprofiler(DEP_down_protein_NonNitrated, organism = "hsapiens", src_filter = c("GO:BP", "GO:MF", "GO:CC", "KEGG", "REAC"), custom_bg = bg_proteins)
 
 ## Save in file
 up_nit_out <- paste("~/GoogleDrive/gastric_cancer_samples/Tables/GO.20200116./up_nitrated/up_nitrated", sample, 'txt', sep = ".")
