@@ -1,5 +1,5 @@
 library(tidyverse)
-date = '20200421'
+date = '20200522'
 
 # Load data
 d = read.delim('~/GoogleDrive/gastric_cancer_samples/Tables/table.data_QC.20200421.txt')
@@ -13,31 +13,35 @@ d2 <- d %>% filter(!(Sample_id %in% dup & Date == 201912))
 ## Draw Peptide size plot
 pa <- d2 %>%
   ggplot(aes(x = Sample_id, y = Peptide_size, fill = Sample_id))+
-  geom_bar(stat = "identity")+
+  geom_bar(stat = "identity", show.legend = FALSE)+
   scale_colour_viridis_d(alpha = 1, begin = 0, end = 1,
                          direction = 1, option = "D", aesthetics = "fill")+
   xlab("Sample ID")+
   ylab("Peptide Size")+
   ggtitle("Peptide Size by Samples")+
   theme(plot.title = element_text(hjust = 0.5, face = "bold"),
-        axis.text.x = element_blank())
+        axis.text.x = element_blank(),
+        legend.position = "none",
+        axis.ticks = element_blank())
 pa
-ggsave("Figures/Fig.1C/plot.peptide_size_by_samples_200421.pdf", pa, width = 10, height = 4)
+ggsave("Figures/Fig.1C/plot.peptide_size_by_samples_200522.pdf", pa, width = 8, height = 4)
 
 
 ## Draw Nitrated Peptide size plot
 pb <- d2 %>% 
   ggplot(aes(x = Sample_id, y = Nitrated_Peptide_size, fill = Sample_id))+
-  geom_bar(stat = "identity")+
+  geom_bar(stat = "identity", show.legend = FALSE)+
   scale_colour_viridis_d(alpha = 1, begin = 0, end = 1,
                          direction = 1, option = "D", aesthetics = "fill")+
   xlab("Sample ID")+
   ylab("Nitrated Peptide Size")+
   ggtitle("Nitrated Peptide Size by Samples")+
   theme(plot.title = element_text(hjust = 0.5, face = "bold"),
-        axis.text.x = element_blank())
+        axis.text.x = element_blank(),
+        legend.position = "none",
+        axis.ticks = element_blank())
 pb
-ggsave("Figures/Fig.1C/plot.nitrated_peptide_size_by_samples_200421.pdf", pb, width = 8, height = 4)
+ggsave("Figures/Fig.1C/plot.nitrated_peptide_size_by_samples_200522.pdf", pb, width = 8, height = 4)
 
 ## Draw Protein size plot
 # 데이터의 상위 폴더를 dir에 지정
@@ -95,9 +99,11 @@ pa <- a1 %>%
   ylab("Total Protein Expression Size")+
   ggtitle("Total Protein Expression Size by Samples")+
   theme(plot.title = element_text(hjust = 0.5, face = "bold"),
-        axis.text.x = element_blank())
+        axis.text.x = element_blank(),
+        legend.position = "none",
+        axis.ticks = element_blank())
 pa
 
-ggsave("Figures/Fig.1C/plot.total_protein_size_by_samples_200421.pdf", pa, width = 8, height = 4)
+ggsave("Figures/Fig.1C/plot.total_protein_size_by_samples_200522.pdf", pa, width = 8, height = 4)
 
   
