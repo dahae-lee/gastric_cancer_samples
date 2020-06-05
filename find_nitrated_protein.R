@@ -4,12 +4,12 @@ args = commandArgs(trailingOnly=TRUE)
 library(readxl)
 library(tidyverse)
 library(dplyr)
-date = "20200420"
+date = "20200603"
 
 # load data
-# f = '~/GoogleDrive/EOGC_Nitration/summary_files_20200309/N117T118_Global_nitration.xlsx'
+# f = '~/GoogleDrive/EOGC_Nitration/summary_files_20200309/N123T124_Global_nitration.xlsx'
 
- f = args[1]
+f = args[1]
 sample = strsplit(strsplit(f, 'summary_files_20200309/', fixed = T)[[1]][2], '_')[[1]][1]
 
 ## Load peptide data
@@ -47,7 +47,7 @@ input = "test.fa"
 evalue = 1e-6
 format = 6
 nThreads = 2
-f_blastp = paste('/Users/dahaelee/GoogleDrive/gastric_cancer_samples/Tables/blastp.20200420/table.blastp', sample, date, 'txt.gz', sep='.')
+f_blastp = paste('/Users/dahaelee/GoogleDrive/gastric_cancer_samples/Tables/blastp.20200603/table.blastp', sample, date, 'txt.gz', sep='.')
 
 if (!file.exists(f_blastp)){
   system2(command = blastp, 
@@ -77,5 +77,5 @@ d$Proportion_of_Nitrated_peptide <- d$Number_nitrated_peptide/d$Number_all_pepti
 d$Sample_ID <- sample
 d <- d[,c(5,1,2,3,4)]
 
-d_out = paste('/Users/dahaelee/GoogleDrive/gastric_cancer_samples/Tables/Protein_with_nitrated_peptide_by_sample.200420/table.Nitrated_Peptide', sample, date, 'txt', sep='.')
+d_out = paste('/Users/dahaelee/GoogleDrive/gastric_cancer_samples/Tables/Protein_with_nitrated_peptide_by_sample.20200603/table.Nitrated_Peptide', sample, date, 'txt', sep='.')
 write.table(d, d_out, sep='\t', quote = F, row.names = F, col.names = F)
